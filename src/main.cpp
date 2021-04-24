@@ -1,31 +1,19 @@
 #include <Arduino.h>
 
-void setup()
-{
+#include "sent_data.hpp"
+
+SentData data;
+
+void setup() {
   Serial.begin(115200);
   Serial2.begin(115200);
-  // put your setup code here, to run once:
 }
 
-void info();
-void loop()
-{
-  info();
-  
+void loop() {
+  InfoData info = data.info();
+  Serial.print("type:");
+  Serial.println(info.type);
+  Serial.print("version:");
+  Serial.println(info.version.c_str());
   delay(1000);
-}
-
-void info()
-{
-  char s1[8] = {0XBB, 0, 0X03, 0, 0X01, 0, 0X04, 0X7E};
-  for (auto i : s1)
-  {
-    Serial2.print(i);
-  }
-  delay(1);
-  while (Serial2.available() > 0)
-  {
-    char tmp = Serial2.read();
-    Serial.print(tmp);
-  }
 }
